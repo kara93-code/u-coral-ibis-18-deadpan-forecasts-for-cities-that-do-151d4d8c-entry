@@ -13,8 +13,14 @@ if (trimmed !== forecast || trimmed.length === 0) {
   console.error("forecast must be one clean non-blank line");
   process.exit(1);
 }
-if (forecast.length > 160) {
-  console.error(`forecast is ${forecast.length} characters, limit is 160`);
+if (forecast.includes("\n")) {
+  console.error("forecast must be a single line with no line break inside");
+  process.exit(1);
+}
+// Count characters as the gate does (Unicode code points, not UTF-16 units).
+const charCount = [...forecast].length;
+if (charCount > 160) {
+  console.error(`forecast is ${charCount} characters, limit is 160`);
   process.exit(1);
 }
 
